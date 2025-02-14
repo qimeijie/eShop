@@ -26,19 +26,26 @@ namespace OrderAPI.Infrastructure.Services
             {
                 throw new Exception("Cannot Cancel Order, Not Found");
             }
-            order.OrderStatus = "Cancel";
+            order.OrderState = OrderState.Canceled;
             var updatedOrder = await orderRepositoryAsync.UpdateAsync(order);
             return mapper.Map<OrderResponseModel>(updatedOrder);
         }
 
         public async Task<string> CheckOrderStatusAsync(int orderId)
         {
-            return (await orderRepositoryAsync.GetByIdAsync(orderId))?.OrderStatus ?? "Not Found";
+            return (await orderRepositoryAsync.GetByIdAsync(orderId))?.OrderState.ToString() ?? "Not Found";
         }
 
-        public Task<OrderResponseModel> CompleteOrderAsync(int orderId)
+        public async Task<OrderResponseModel> CompleteOrderAsync(int orderId)
         {
-            throw new NotImplementedException();
+            var order = await orderRepositoryAsync.GetByIdAsync(orderId);
+            if (order == null)
+            {
+                throw new Exception("Cannot Complete Order, Not Found");
+            }
+            order.OrderState = OrderState.Completed;
+            var updatedOrder = await orderRepositoryAsync.UpdateAsync(order);
+            return mapper.Map<OrderResponseModel>(updatedOrder);
         }
 
         public async Task<IEnumerable<OrderResponseModel>> GetAllOrdersAsync()

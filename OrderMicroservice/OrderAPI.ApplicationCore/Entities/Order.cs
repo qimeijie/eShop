@@ -15,9 +15,20 @@ namespace OrderAPI.ApplicationCore.Entities
         public string ShippingAddress { get; set; }
         public string ShippingMethod { get; set; }
         public decimal BillAmount { get; set; }
-        public string OrderStatus { get; set; }
+        public OrderState OrderState { get; set; }
         public IEnumerable<OrderDetail> OrderDetails { get; set; }
         public IEnumerable<PaymentMethod> PaymentMethods { get; set; }
         public Customer Customer { get; set; }
+    }
+
+    public enum OrderState
+    {
+        Pending,        
+        Processing,     
+        Shipped,        
+        Delivered,      
+        Completed,      
+        Canceled,       
+        Returned
     }
 }
