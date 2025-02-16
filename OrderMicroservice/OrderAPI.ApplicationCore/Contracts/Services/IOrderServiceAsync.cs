@@ -11,5 +11,6 @@ namespace OrderAPI.ApplicationCore.Contracts.Services
         Task<OrderResponseModel> CancelOrderAsync(int orderId);
         Task<OrderResponseModel> CompleteOrderAsync(int orderId);
         Task<OrderResponseModel> UpdateAsync(OrderRequestModel orderRequestModel);
+        Task<bool> UpdateOrderStatusAsync(int id, string status);
     }
 }

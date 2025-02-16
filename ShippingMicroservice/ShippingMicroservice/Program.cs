@@ -21,7 +21,9 @@ builder.Services.AddAutoMapper(typeof(ApplicationMapper));
 builder.Services.AddScoped<IRegionRepositoryAsync, RegionRepotitoryAsync>();
 builder.Services.AddScoped<IShipperRepositoryAsync, ShipperRepositoryAsync>();
 builder.Services.AddScoped<IShipperServiceAsync, ShipperServicesAsync>();
+builder.Services.AddScoped<IOrderServiceAsync, OrderServiceAsync>();
 
+builder.WebHost.UseUrls("http://0.0.0.0:5138");
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,8 +32,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

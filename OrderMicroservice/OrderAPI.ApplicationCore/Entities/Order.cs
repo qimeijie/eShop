@@ -15,13 +15,13 @@ namespace OrderAPI.ApplicationCore.Entities
         public string ShippingAddress { get; set; }
         public string ShippingMethod { get; set; }
         public decimal BillAmount { get; set; }
-        public OrderState OrderState { get; set; }
+        public OrderStatus OrderStatus { get; set; }
         public IEnumerable<OrderDetail> OrderDetails { get; set; }
         public IEnumerable<PaymentMethod> PaymentMethods { get; set; }
         public Customer Customer { get; set; }
     }
 
-    public enum OrderState
+    public enum OrderStatus
     {
         Pending,        
         Processing,     

@@ -1,0 +1,16 @@
+services:
+  ordermicroservice:
+    image: ${DOCKER_REGISTRY-}ordermicroservice
+    build:
+      context: .
+      dockerfile: OrderMicroservice/OrderMicroservice/Dockerfile
+    ports:
+      - "5016:5016"
+
+  shippingmicroservice:
+    image: ${DOCKER_REGISTRY-}shippingmicroservice
+    build:
+      context: .
+      dockerfile: ShippingMicroservice/ShippingMicroservice/Dockerfile
+    ports:
+      - "5138:5138"

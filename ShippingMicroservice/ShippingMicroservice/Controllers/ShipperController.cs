@@ -9,10 +9,12 @@ namespace ShippingMicroservice.Controllers
     public class ShipperController : ControllerBase
     {
         private readonly IShipperServiceAsync shipperServiceAsync;
+        private readonly IOrderServiceAsync orderServiceAsync;
 
-        public ShipperController(IShipperServiceAsync shipperServiceAsync)
+        public ShipperController(IShipperServiceAsync shipperServiceAsync, IOrderServiceAsync orderServiceAsync)
         {
             this.shipperServiceAsync = shipperServiceAsync;
+            this.orderServiceAsync = orderServiceAsync;
         }
 
         [HttpGet]
@@ -56,6 +58,17 @@ namespace ShippingMicroservice.Controllers
         {
             var response = await shipperServiceAsync.GetShipperByRegion(region);
             return Ok(response);
+        }
+
+        [HttpPut("[action]")]
+        public async Task<IActionResult> UpdateOrderStatus(int id, [FromBody] OrderState status)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await orderServiceAsync.UpdateOrderStatusAsync(id, status.ToString());
+                return Ok(response);
+            }
+            return BadRequest(ModelState.ToString());
         }
     }
 }

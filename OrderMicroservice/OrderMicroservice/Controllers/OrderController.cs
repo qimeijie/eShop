@@ -71,5 +71,25 @@ namespace OrderMicroservice.Controllers
             var response = await orderServiceAsync.UpdateAsync(orderRequestModel);
             return Ok(response);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrderStatus(int id, [FromBody] string status)
+        {
+            try
+            {
+                var response = await orderServiceAsync.UpdateOrderStatusAsync(id, status);
+                if (response)
+                {
+                    return Ok(response);
+                } 
+                else
+                {
+                    return BadRequest("The status is not set");
+                }
+            } catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
     }
 }

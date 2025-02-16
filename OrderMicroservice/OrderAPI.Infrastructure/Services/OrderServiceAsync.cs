@@ -26,14 +26,14 @@ namespace OrderAPI.Infrastructure.Services
             {
                 throw new Exception("Cannot Cancel Order, Not Found");
             }
-            order.OrderState = OrderState.Canceled;
+            order.OrderStatus = OrderStatus.Canceled;
             var updatedOrder = await orderRepositoryAsync.UpdateAsync(order);
             return mapper.Map<OrderResponseModel>(updatedOrder);
         }
 
         public async Task<string> CheckOrderStatusAsync(int orderId)
         {
-            return (await orderRepositoryAsync.GetByIdAsync(orderId))?.OrderState.ToString() ?? "Not Found";
+            return (await orderRepositoryAsync.GetByIdAsync(orderId))?.OrderStatus.ToString() ?? "Not Found";
         }
 
         public async Task<OrderResponseModel> CompleteOrderAsync(int orderId)
@@ -43,7 +43,7 @@ namespace OrderAPI.Infrastructure.Services
             {
                 throw new Exception("Cannot Complete Order, Not Found");
             }
-            order.OrderState = OrderState.Completed;
+            order.OrderStatus = OrderStatus.Completed;
             var updatedOrder = await orderRepositoryAsync.UpdateAsync(order);
             return mapper.Map<OrderResponseModel>(updatedOrder);
         }
@@ -72,6 +72,22 @@ namespace OrderAPI.Infrastructure.Services
             var order = mapper.Map<Order>(orderRequestModel);
             order = await orderRepositoryAsync.UpdateAsync(order);
             return mapper.Map<OrderResponseModel>(order);
+        }
+
+        public async Task<bool> UpdateOrderStatusAsync(int id, string status)
+        {
+            if(!Enum.TryParse(status, true, out OrderStatus orderStatus))
+            {
+                return false;
+            }
+            var order =await orderRepositoryAsync.GetByIdAsync(id);
+            if(order == null)
+            {
+                return false;
+            }
+            order.OrderStatus = orderStatus;
+            await orderRepositoryAsync.UpdateAsync(order);
+            return true;
         }
     }
 }
