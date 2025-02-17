@@ -4,6 +4,7 @@ namespace OrderAPI.ApplicationCore.Contracts.Repositories
 {
     public interface IOrderRepositoryAsync : IRepositoryAsync<Order>
     {
-        Task<IEnumerable<PaymentMethod>> GetPaymentByCustomerId(int customerId);
+        Task<IEnumerable<PaymentMethod>> GetPaymentByCustomerIdAsync(int customerId);
+        Task<Order> GetOrderWithDetailbyIdAsync(int id);
     }
 }

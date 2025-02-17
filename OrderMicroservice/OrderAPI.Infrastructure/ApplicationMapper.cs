@@ -16,6 +16,12 @@ namespace OrderAPI.Infrastructure
 
             CreateMap<OrderDetail, OrderDetailResponseModel>().ReverseMap();
             CreateMap<Order, OrderRequestModel>().ReverseMap();
+            CreateMap<Order, OrderCompletedEventResponseModel>()
+                .ForMember(
+                    dest => dest.OrderDetailResponseModels, 
+                    opt => opt.MapFrom(src => src.OrderDetails)
+                ).ReverseMap();
+
             CreateMap<Order, OrderResponseModel>().ReverseMap();
             
             CreateMap<PaymentType, PaymentTypeResponseModel>().ReverseMap();

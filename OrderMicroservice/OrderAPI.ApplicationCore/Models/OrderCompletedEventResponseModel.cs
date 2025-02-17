@@ -3,8 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace OrderAPI.ApplicationCore.Models
 {
-    public class OrderRequestModel
+    public class OrderCompletedEventResponseModel
     {
+        public int Id { get; set; }
         public DateTime OrderDate { get; set; }
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
@@ -15,5 +16,6 @@ namespace OrderAPI.ApplicationCore.Models
         public decimal BillAmount { get; set; }
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public OrderStatus OrderStatus { get; set; }
+        public IEnumerable<OrderDetailResponseModel> OrderDetailResponseModels { get; set; }
     }
 }

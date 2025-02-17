@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OrderAPI.ApplicationCore.Contracts.Services;
 using OrderAPI.ApplicationCore.Models;
+using SharedNotificationService;
+using System.Text.Json;
 
 namespace OrderMicroservice.Controllers
 {
@@ -9,10 +11,12 @@ namespace OrderMicroservice.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderServiceAsync orderServiceAsync;
+        private readonly RabbitMqServiceAsync rabbitMqServiceAsync;
 
         public OrderController(IOrderServiceAsync orderServiceAsync)
         {
             this.orderServiceAsync = orderServiceAsync;
+            this.rabbitMqServiceAsync = new RabbitMqServiceAsync("Order Microservice", Server.Docker);
         }
 
         [HttpGet]
@@ -61,7 +65,8 @@ namespace OrderMicroservice.Controllers
         [HttpPost]
         public async Task<IActionResult> OrderCompleted(int orderId)
         {
-            var response = await orderServiceAsync.CompleteOrderAsync(orderId);
+            var response = await orderServiceAsync.OrderCompletedAsync(orderId);
+            await rabbitMqServiceAsync.AddMessageToQueue(JsonSerializer.Serialize(response));
             return Ok(response);
         }
 

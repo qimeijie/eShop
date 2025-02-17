@@ -26,7 +26,7 @@ namespace OrderAPI.Infrastructure.Services
 
         public async Task<IEnumerable<PaymentResponseModel>> GetPaymentByCustomerIdAsync(int customerId)
         {
-            var payments = await orderRepositoryAsync.GetPaymentByCustomerId(customerId);
+            var payments = await orderRepositoryAsync.GetPaymentByCustomerIdAsync(customerId);
             return mapper.Map<IEnumerable<PaymentResponseModel>>(payments);
         }
 

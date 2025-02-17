@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\SharedNotificationService\SharedNotificationService.csproj" />
     <ProjectReference Include="..\OrderAPI.Infrastructure\OrderAPI.Infrastructure.csproj" />
   </ItemGroup>
 

@@ -14,7 +14,12 @@ namespace OrderAPI.Infrastructure.Repositories
             this.orderDbContext = orderDbContext;
         }
 
-        public async Task<IEnumerable<PaymentMethod>> GetPaymentByCustomerId(int customerId)
+        public Task<Order> GetOrderWithDetailbyIdAsync(int id)
+        {
+            return orderDbContext.Orders.AsNoTracking().Include(o => o.OrderDetails).FirstOrDefaultAsync(o => o.Id == id);
+        }
+
+        public async Task<IEnumerable<PaymentMethod>> GetPaymentByCustomerIdAsync(int customerId)
         {
             return await orderDbContext.Orders.AsNoTracking()
                 .Where(o => o.CustomerId == customerId)
