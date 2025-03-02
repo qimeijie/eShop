@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: OrderMicroservice/OrderMicroservice/Dockerfile
     ports:
-      - "5016:5016"
+      - "5016:8080"
 
   shippingmicroservice:
     image: ${DOCKER_REGISTRY-}shippingmicroservice
@@ -13,4 +13,22 @@ services:
       context: .
       dockerfile: ShippingMicroservice/ShippingMicroservice/Dockerfile
     ports:
-      - "5138:5138"
+      - "5138:8080"
+
+  authenticationmicroservice:
+    image: ${DOCKER_REGISTRY-}authenticationmicroservice
+    build:
+      context: .
+      dockerfile: AuthenticationMicroservice/AuthenticationMicroservice/Dockerfile
+    ports:
+      - "5017:8080"
+
+  productmicroservice:
+    image: ${DOCKER_REGISTRY-}productmicroservice
+    build:
+      context: .
+      dockerfile: ProductMicroservice/ProductMicroservice/Dockerfile
+    ports:
+      - "5100:8080"
+
+

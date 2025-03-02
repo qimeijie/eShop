@@ -7,5 +7,6 @@ namespace ProductMicroservice.ApplicationCore.Contracts.Repositories
         Task<IEnumerable<Product>> GetListProducts(int pageId, int pageSize, int? categoryId);
         Task<IEnumerable<Product>> GetProductByCategoryId(int categoryId);
         Task<IEnumerable<Product>> GetProductByProductName(string productName);
+        Task<int> GetProductCount(int? categoryId = null);
     }
 }

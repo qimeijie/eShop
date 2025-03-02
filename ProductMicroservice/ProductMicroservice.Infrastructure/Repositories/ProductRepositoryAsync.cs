@@ -33,5 +33,10 @@ namespace ProductMicroservice.Infrastructure.Repositories
         {
             return await productDbContext.Products.AsNoTracking().Where(p => p.Name == productName).ToListAsync();
         }
+
+        public Task<int> GetProductCount(int? categoryId = null)
+        {
+            return productDbContext.Products.AsNoTracking().Where(p => categoryId == null || p.CategoryId == categoryId.Value).CountAsync();
+        }
     }
 }

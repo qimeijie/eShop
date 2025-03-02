@@ -4,7 +4,7 @@ namespace ProductMicroservice.ApplicationCore.Contracts.Services
 {
     public interface IProductServiceAsync
     {
-        Task<IEnumerable<ProductResponseModel>> GetListProducts(int pageId, int pageSize, int? categoryId);
+        Task<TotalProductResponseModel> GetListProducts(int pageId, int pageSize, int? categoryId);
         Task<IEnumerable<ProductResponseModel>> GetProductByCategoryId(int categoryId);
         Task<IEnumerable<ProductResponseModel>> GetProductByProductName(string productName);
         Task<IEnumerable<ProductResponseModel>> GetAllAsync();

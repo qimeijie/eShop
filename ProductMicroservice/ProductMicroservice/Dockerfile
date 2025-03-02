@@ -11,21 +11,21 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["OrderMicroservice/OrderMicroservice/OrderMicroservice.csproj", "OrderMicroservice/OrderMicroservice/"]
-COPY ["OrderMicroservice/OrderAPI.Infrastructure/OrderAPI.Infrastructure.csproj", "OrderMicroservice/OrderAPI.Infrastructure/"]
-COPY ["OrderMicroservice/OrderAPI.ApplicationCore/OrderAPI.ApplicationCore.csproj", "OrderMicroservice/OrderAPI.ApplicationCore/"]
-RUN dotnet restore "./OrderMicroservice/OrderMicroservice/OrderMicroservice.csproj"
+COPY ["ProductMicroservice/ProductMicroservice/ProductMicroservice.csproj", "ProductMicroservice/ProductMicroservice/"]
+COPY ["ProductMicroservice/ProductMicroservice.Infrastructure/ProductMicroservice.Infrastructure.csproj", "ProductMicroservice/ProductMicroservice.Infrastructure/"]
+COPY ["ProductMicroservice/ProductService.ApplicationCore/ProductMicroservice.ApplicationCore.csproj", "ProductMicroservice/ProductService.ApplicationCore/"]
+RUN dotnet restore "./ProductMicroservice/ProductMicroservice/ProductMicroservice.csproj"
 COPY . .
-WORKDIR "/src/OrderMicroservice/OrderMicroservice"
-RUN dotnet build "./OrderMicroservice.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/ProductMicroservice/ProductMicroservice"
+RUN dotnet build "./ProductMicroservice.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./OrderMicroservice.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./ProductMicroservice.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "OrderMicroservice.dll"]
+ENTRYPOINT ["dotnet", "ProductMicroservice.dll"]

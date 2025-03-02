@@ -3,12 +3,6 @@ using ProductMicroservice.ApplicationCore.Contracts.Repositories;
 using ProductMicroservice.ApplicationCore.Contracts.Services;
 using ProductMicroservice.ApplicationCore.Entities;
 using ProductMicroservice.ApplicationCore.Models;
-using ProductMicroservice.Infrastructure.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProductMicroservice.Infrastructure.Services
 {
@@ -37,9 +31,11 @@ namespace ProductMicroservice.Infrastructure.Services
             return mapper.Map<ProductResponseModel>(await productRepositoryAsync.GetByIdAsync(id));
         }
 
-        public async Task<IEnumerable<ProductResponseModel>> GetListProducts(int pageId, int pageSize, int? categoryId)
+        public async Task<TotalProductResponseModel> GetListProducts(int pageId, int pageSize, int? categoryId)
         {
-            return mapper.Map<IEnumerable<ProductResponseModel>>(await productRepositoryAsync.GetListProducts(pageId, pageSize, categoryId));
+            var products = mapper.Map<IEnumerable<ProductResponseModel>>(await productRepositoryAsync.GetListProducts(pageId, pageSize, categoryId));
+            int total = await productRepositoryAsync.GetProductCount(categoryId);
+            return new TotalProductResponseModel() { Products = products, TotalNumber = total};
         }
 
         public async Task<IEnumerable<ProductResponseModel>> GetProductByCategoryId(int categoryId)
